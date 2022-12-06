@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#C3FAF3F3"
+    tools:context=".Views.MyDietAdd">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="14dp"
+                android:src="@drawable/back_btn"
+                android:id="@+id/backbutton"
+                >
+            </ImageView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Kendi Diyetini Ekle"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="14dp"
+                android:src="@drawable/home"
+                android:layout_alignParentRight="true"
+                android:id="@+id/homebutton"
+                >
+            </ImageView>
+
+
+
+
+
+
+        </RelativeLayout>
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gün "
+            android:textStyle="bold"
+            android:textSize="25sp"
+            >
+        </TextView>
+
+        <EditText
+            android:id="@+id/hangigun1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:hint="Örn: Pazartesi" />
+
+        <!--Sabah-->
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sabah "
+            android:textStyle="bold"
+            android:textSize="25sp"
+            >
+        </TextView>
+
+        <EditText
+            android:id="@+id/sabahogun1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:hint="Örn: 1 ince dilim tam tahıllı ekmek" />
+
+        <EditText
+            android:id="@+id/sabahogun2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Örn: 2 yemek kaşığı lor"
+            android:inputType="textMultiLine"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <EditText
+            android:id="@+id/sabahogun3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:hint="Örn: 1 fincan şekersiz yeşil çay" />
+
+        <!--Öğle-->
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Öğle "
+            android:textStyle="bold"
+            android:textSize="25sp"
+            >
+        </TextView>
+
+        <EditText
+            android:id="@+id/ogleogun1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:hint="Örn: Haşlanmış yumurta ile yapılmış salata" />
+
+        <EditText
+            android:id="@+id/ogleogun2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:hint="Örn: Mevsim yeşillikleri" />
+
+        <EditText
+            android:id="@+id/ogleogun3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:hint="Örn: 1 bardak su" />
+
+        <!--Ara Öğün-->
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ara Öğün"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            >
+        </TextView>
+
+        <EditText
+            android:id="@+id/araogun1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:hint="Örn: 1 avuç badem" />
+
+        <EditText
+
+            android:id="@+id/araogun2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:hint="Örn: 1 bardak süt" />
+
+        <!--Akşam-->
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Akşam"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            >
+        </TextView>
+
+        <EditText
+
+            android:id="@+id/aksamogun1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:hint="Örn: 30 gram kadar ızgara tavuk" />
+
+        <EditText
+            android:inputType="textMultiLine"
+            android:id="@+id/aksamogun2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Örn: Elma sirkeli yağsız salata"
+            />
+        <EditText
+            android:id="@+id/aksamogun3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:hint="Örn: 4 yemek kaşığı light yoğurt " />
+
+        <!--Not-->
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Not"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            >
+        </TextView>
+        <EditText
+            android:id="@+id/not"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            android:hint="Örn: Her sabah uyandığında su içmeyi unutma"/>
+
+        <Button
+            android:layout_marginTop="5dp"
+            android:id="@+id/mydiyetEkle"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Ekle">
+
+        </Button>
+
+
+
+    </LinearLayout>
+
+</ScrollView>

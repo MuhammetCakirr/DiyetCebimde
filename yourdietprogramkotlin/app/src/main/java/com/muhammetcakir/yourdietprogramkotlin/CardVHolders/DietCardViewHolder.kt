@@ -1,0 +1,9 @@
+package com.muhammetcakir.yourdietprogramkotlin.CardVHolders
+
+import android.view.View
+import androidx.recyclerview.widget.RecyclerView
+import com.muhammetcakir.yourdietprogramkotlin.ClickListener.DietClickListener
+
+import com.muhammetcakir.yourdietprogramkotlin.Models.DietCesit
+import com.muhammetcakir.yourdietprogramkotlin.databinding.CardCellBinding
+

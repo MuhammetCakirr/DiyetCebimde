@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Profilim" android:icon="@drawable/person"/>
+    <item android:title="Anasayfa" android:icon="@drawable/home"/>
+    <item android:title="Ayarlar" android:icon="@drawable/settings"/>
+</menu>

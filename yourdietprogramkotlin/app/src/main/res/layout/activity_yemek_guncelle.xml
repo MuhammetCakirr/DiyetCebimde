@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#C3FAF3F3"
+    tools:context=".Views.YemekGuncelle">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Yemek Güncelle"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="14dp"
+                android:src="@drawable/home"
+                android:layout_alignParentRight="true"
+                android:id="@+id/homebutton"
+                >
+            </ImageView>
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Adı: "
+                android:textSize="20sp"
+                android:textColor="@color/black">
+
+            </TextView>
+
+            <EditText
+                android:hint="örn:Mantı"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/adminyemekadi"
+                android:inputType="textMultiLine">
+
+            </EditText>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Açıklaması: "
+                android:textSize="20sp"
+                android:textColor="@color/black">
+
+            </TextView>
+
+            <EditText
+                android:hint="örn:1 kaşık tuz, pulbiber vs."
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/adminaciklamasi"
+                android:inputType="textMultiLine">
+
+            </EditText>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hazırlama Süresi: "
+                android:textSize="20sp"
+                android:textColor="@color/black">
+
+            </TextView>
+
+            <EditText
+                android:hint="örn:45 dk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/adminyemekhazirlamasuresi"
+                android:inputType="textMultiLine">
+
+            </EditText>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="İçindekiler: "
+                android:textSize="20sp"
+                android:textColor="@color/black">
+
+            </TextView>
+
+            <EditText
+                android:hint="örn:1 kaşık tuz, pulbiber vs."
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/adminyemekicindekiler"
+                android:inputType="textMultiLine">
+
+            </EditText>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Toplam Kalorisi: "
+                android:textSize="20sp"
+                android:textColor="@color/black">
+
+            </TextView>
+
+            <EditText
+                android:hint="örn:125 kcal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/adminyemektoplamkalori"
+                android:inputType="textMultiLine">
+
+            </EditText>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Protein Miktarı: "
+                android:textSize="20sp"
+                android:textColor="@color/black">
+
+            </TextView>
+
+            <EditText
+                android:hint="örn:12 g"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/adminyemekprotein"
+                android:inputType="textMultiLine">
+
+            </EditText>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Karbonhidrat Miktarı: "
+                android:textSize="20sp"
+                android:textColor="@color/black">
+
+            </TextView>
+
+            <EditText
+                android:hint="örn:12 g"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/adminyemekkarbonhidrat"
+                android:inputType="textMultiLine">
+
+            </EditText>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Yağ Miktarı: "
+                android:textSize="20sp"
+                android:textColor="@color/black">
+
+            </TextView>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/adminyemekyag"
+                android:inputType="textMultiLine"
+                android:hint="örn:12 g">
+
+            </EditText>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kategorisi: "
+                android:textSize="20sp"
+                android:textColor="@color/black">
+
+            </TextView>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/adminyemekkategoriid"
+                android:inputType="textMultiLine"
+                android:hint="örn:1">
+
+            </EditText>
+        </LinearLayout>
+
+
+        <Button
+            android:text="Güncelle"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnyemekguncelle"
+            android:textColor="@color/white">
+
+        </Button>
+
+
+    </LinearLayout>
+
+</ScrollView>

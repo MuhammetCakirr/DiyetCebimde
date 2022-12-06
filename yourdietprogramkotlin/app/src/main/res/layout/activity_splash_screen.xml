@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Views.SplashScreen"
+    android:background="#C3FAF3F3">
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animasyon"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="6dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        app:lottie_fileName="90016-order-food.json"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true" />
+
+    <TextView
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/animasyon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Yükleniyor..."
+        android:textColor="@color/black"
+        android:textSize="25dp"
+        android:layout_marginTop="25dp"
+        android:textStyle="bold|italic">
+
+    </TextView>
+
+
+
+</RelativeLayout>

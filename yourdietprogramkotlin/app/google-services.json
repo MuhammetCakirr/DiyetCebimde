@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "817128577458",
+    "project_id": "dietcebimde",
+    "storage_bucket": "dietcebimde.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:817128577458:android:4dc5f6f61f8b9c3c26acab",
+        "android_client_info": {
+          "package_name": "com.muhammetcakir.yourdietprogramkotlin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "817128577458-flbnc52ukevuotu4ka5o5itr19mo2cc0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.muhammetcakir.yourdietprogramkotlin",
+            "certificate_hash": "25e113a9985217d4e39a39c41b32a64d68e1a70c"
+          }
+        },
+        {
+          "client_id": "817128577458-9ft18ssml32b7i8a7583u7rth20dks6e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5gJq3PpxXL3E4uvweqzeB0ohACn4hRLs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "817128577458-9ft18ssml32b7i8a7583u7rth20dks6e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
