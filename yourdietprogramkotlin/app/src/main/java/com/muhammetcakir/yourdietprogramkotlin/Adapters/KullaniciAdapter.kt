@@ -4,42 +4,37 @@ import android.content.ContentValues
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
-import com.muhammetcakir.yourdietprogramkotlin.ClickListener.Kullanicisil
-import com.muhammetcakir.yourdietprogramkotlin.ClickListener.diyetsil
+import com.muhammetcakir.yourdietprogramkotlin.ClickListener.kullanicidetay
 import com.muhammetcakir.yourdietprogramkotlin.Models.User
-import com.muhammetcakir.yourdietprogramkotlin.Models.YemekKategori
-import com.muhammetcakir.yourdietprogramkotlin.databinding.KategoriCardBinding
 import com.muhammetcakir.yourdietprogramkotlin.databinding.KullanicilarCardBinding
 import com.squareup.picasso.Picasso
 
 private  var db : FirebaseFirestore = FirebaseFirestore.getInstance()
 class KullaniciAdapter
-    (private val kullanicilar: ArrayList<User>,private val onclick: Kullanicisil): RecyclerView.Adapter<KullaniciAdapter.KullaniciHolder>()
+    (private val kullanicilar: ArrayList<User>,private val onclick: kullanicidetay): RecyclerView.Adapter<KullaniciAdapter.KullaniciHolder>()
 
 {
-    class KullaniciHolder(val binding: KullanicilarCardBinding,onclick: Kullanicisil):RecyclerView.ViewHolder(binding.root)
+    class KullaniciHolder(val binding: KullanicilarCardBinding,private val onclick2: kullanicidetay):RecyclerView.ViewHolder(binding.root)
     {
-        val clickListener:Kullanicisil=onclick
+        val kullanicicard:CardView=binding.kullanicicard
         val kullaniciisim: TextView = binding.kullaniciisim
         val kullaniciemail: TextView = binding.kullaniciemail
         val kullanicisifre: TextView = binding.kullanicisifre
         val kullaniciImageView: ImageView = binding.kullanicifoto
-        val sil: Button =binding.btnkullanicisil
+
         fun bindItems(item: User) {
             kullanicisifre.setText(item.sifre)
             kullaniciemail.setText(item.email)
             kullaniciisim.setText(item.isim)
             Picasso.get().load(item.ImageUrl).into(kullaniciImageView)
 
-            sil.setOnClickListener{
-                removedatabase(item.id)
-                clickListener.onclick()
+            kullanicicard.setOnClickListener {
+                onclick2.onclick(item)
             }
         }
     }

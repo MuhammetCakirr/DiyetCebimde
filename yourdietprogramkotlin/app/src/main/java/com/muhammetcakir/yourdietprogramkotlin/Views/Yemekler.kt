@@ -43,7 +43,7 @@ class yemekler : AppCompatActivity(), YemekClickListener,KategoriClickListener,Y
         }
 
         binding.homebutton.setOnClickListener {
-            if (currentUser!!.email.toString()=="mami@gmail.com")
+            if (currentUser!!.email.toString()=="mami1@gmail.com")
             {
                 startActivity(Intent(this, AdminAnaSayfaActivity::class.java))
             }
@@ -54,7 +54,6 @@ class yemekler : AppCompatActivity(), YemekClickListener,KategoriClickListener,Y
         }
         binding.kategorirc.apply {
             layoutManager = LinearLayoutManager(this@yemekler,LinearLayoutManager.HORIZONTAL,false)
-            println("KATEGORİLER BOYUT"+ kategoriArrayList.size)
             adapter = KategoriCardAdapter(kategoriArrayList,this@yemekler)
             binding.kategorirc.adapter = adapter
             binding.kategorirc.layoutManager=layoutManager

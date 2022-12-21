@@ -22,7 +22,6 @@ class AdminAnaSayfaActivity : AppCompatActivity() {
         binding=ActivityAdminAnaSayfaBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
-
         getAdminFromFirestore()
         binding.AdminSayfasi.setOnClickListener {
 

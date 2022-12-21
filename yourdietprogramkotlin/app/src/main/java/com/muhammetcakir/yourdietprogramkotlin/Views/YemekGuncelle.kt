@@ -10,7 +10,6 @@ import com.muhammetcakir.yourdietprogramkotlin.Models.YEMEK_ID_EXTRA
 import com.muhammetcakir.yourdietprogramkotlin.Models.Yemek
 import com.muhammetcakir.yourdietprogramkotlin.Models.yemekList
 import com.muhammetcakir.yourdietprogramkotlin.databinding.ActivityYemekGuncelleBinding
-import com.muhammetcakir.yourdietprogramkotlin.suankikullanicilist
 private  var db : FirebaseFirestore = FirebaseFirestore.getInstance()
 class YemekGuncelle : AppCompatActivity() {
     private lateinit var binding:ActivityYemekGuncelleBinding

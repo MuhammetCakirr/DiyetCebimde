@@ -3,15 +3,11 @@ package com.muhammetcakir.yourdietprogramkotlin.Views
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.muhammetcakir.yourdietprogramkotlin.*
-import com.muhammetcakir.yourdietprogramkotlin.Adapters.MyDietAdapter
 import com.muhammetcakir.yourdietprogramkotlin.Adapters.OneriDiyetlerAdapter
 import com.muhammetcakir.yourdietprogramkotlin.Models.Diyet
-import com.muhammetcakir.yourdietprogramkotlin.databinding.ActivityMainBinding
 import com.muhammetcakir.yourdietprogramkotlin.databinding.ActivityOneridiyetlerBinding
-import kotlinx.android.synthetic.main.activity_oneridiyetler.*
 import java.util.ArrayList
 
 val oneridiyetlerlist : ArrayList<Diyet> = ArrayList()

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#C3FAF3F3"
     android:orientation="vertical"
-    tools:context=".Views.EditProfile">
+    tools:context=".Views.KullaniciDetay">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Profilim"
+                android:text="Kullanıcı Detay"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold">
@@ -53,15 +53,14 @@
             android:gravity="center"
             >
             <androidx.cardview.widget.CardView
-                android:layout_width="140dp"
-                android:layout_height="140dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 app:cardCornerRadius="15dp">
 
                 <ImageView
-                    android:scaleType="fitXY"
                     android:id="@+id/celalo"
-                    android:layout_width="140dp"
-                    android:layout_height="140dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:src="@drawable/celali" />
 
@@ -171,20 +170,13 @@
                 android:text="Güncelle">
 
             </Button>
-            <Button
-                android:id="@+id/btncikisyap"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
 
-                android:text="Çıkış yap">
-
-            </Button>
             <Button
                 android:id="@+id/btnsil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="guncelle"
-                android:text="Hesabımı Sil">
+                android:text="Kullanıcıyı Sil">
 
             </Button>
 

@@ -10,10 +10,7 @@ import com.muhammetcakir.yourdietprogramkotlin.ClickListener.YemekClickListener
 import com.muhammetcakir.yourdietprogramkotlin.ClickListener.yenile
 import com.muhammetcakir.yourdietprogramkotlin.Models.YEMEK_ID_EXTRA
 import com.muhammetcakir.yourdietprogramkotlin.Models.Yemek
-
-
 import com.muhammetcakir.yourdietprogramkotlin.Models.favorilerimList
-
 import com.muhammetcakir.yourdietprogramkotlin.databinding.ActivityFavorilerimBinding
 
 class FavorilerimActivity : AppCompatActivity(),YemekClickListener,yenile {

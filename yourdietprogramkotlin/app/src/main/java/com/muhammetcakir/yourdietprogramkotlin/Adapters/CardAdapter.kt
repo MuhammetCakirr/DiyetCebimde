@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.muhammetcakir.yourdietprogramkotlin.ClickListener.YemekClickListener
 import com.muhammetcakir.yourdietprogramkotlin.ClickListener.YemekGuncelleClickListener
@@ -18,6 +19,7 @@ import com.muhammetcakir.yourdietprogramkotlin.databinding.CardCellBinding
 
 import com.squareup.picasso.Picasso
 private  var db : FirebaseFirestore = FirebaseFirestore.getInstance()
+private  var auth1 : FirebaseAuth= FirebaseAuth.getInstance()
 class CardAdapter(
     private val yemekler: ArrayList<Yemek>,
     private val clickListener: YemekClickListener,
@@ -29,10 +31,9 @@ class CardAdapter(
     class CardViewHolder(private val cardCellBinding:CardCellBinding, private val clickListener: YemekClickListener, private val clickListener2: YemekGuncelleClickListener) : RecyclerView.ViewHolder(cardCellBinding.root)
 
     {
-
         fun bindyemek(yemek: Yemek)
         {
-            if(currentUser!!.email.toString()=="mami1@gmail.com")
+            if(auth1.currentUser!!.email.toString()=="mami1@gmail.com")
             {
                 cardCellBinding.cardbuttonsil.visibility=View.VISIBLE
                 cardCellBinding.cardbutton.visibility=View.GONE

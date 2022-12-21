@@ -4,9 +4,9 @@ package com.muhammetcakir.yourdietprogramkotlin.Views
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
+import com.muhammetcakir.yourdietprogramkotlin.currentUser
 
 import com.muhammetcakir.yourdietprogramkotlin.databinding.ActivityMyDietAddBinding
 
@@ -19,8 +19,6 @@ class MyDietAdd : AppCompatActivity() {
         binding= ActivityMyDietAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
-
-
         binding.mydiyetEkle.setOnClickListener()
         {
             verileriyukle()
@@ -28,10 +26,7 @@ class MyDietAdd : AppCompatActivity() {
             startActivity(Intent(this@MyDietAdd, NewActivity::class.java))
         }
 
-
-
     }
-
     fun verileriyukle() {
 
         if (binding.sabahogun1.text != null || binding.sabahogun2.text != null || binding.sabahogun3.text != null ||
@@ -52,13 +47,13 @@ class MyDietAdd : AppCompatActivity() {
             diyetMap.put("araogun2", binding.araogun2.text.toString())
             diyetMap.put("not", binding.not.text.toString())
             diyetMap.put("hangigun",binding.hangigun1.text.toString())
+            diyetMap.put("kimeait", currentUser?.uid.toString())
             db.collection("Diyetler").add(diyetMap).addOnCompleteListener { task ->
 
                 if (task.isComplete && task.isSuccessful) {
                     //back
                     finish()
                     //    Toast.makeText(getApplicationContext(),"Diyetin Eklendi.Diyetlerim Kısmından Görebilirsin.",Toast.LENGTH_LONG).show();
-
                 }
 
             }.addOnFailureListener { exception ->

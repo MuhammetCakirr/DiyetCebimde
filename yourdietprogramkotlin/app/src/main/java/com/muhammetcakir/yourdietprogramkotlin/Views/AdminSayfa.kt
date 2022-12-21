@@ -3,6 +3,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
@@ -17,6 +18,7 @@ val adminArrayList : ArrayList<Admin> = ArrayList()
 class AdminSayfa : AppCompatActivity() {
     private lateinit var binding:ActivityAdminSayfaBinding
     private  var db : FirebaseFirestore = FirebaseFirestore.getInstance()
+    private lateinit var auth : FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityAdminSayfaBinding.inflate(layoutInflater)
@@ -38,10 +40,13 @@ class AdminSayfa : AppCompatActivity() {
         }
 
         binding.btnadmincikisyap.setOnClickListener {
-            Firebase.auth.signOut()
-            val intent = Intent(applicationContext, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+            auth.updateCurrentUser(auth.currentUser!!)
+            auth.signOut()
+            if(auth.currentUser==null)
+            {
+                val intent = Intent(applicationContext, MainActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
     private fun adminupdate() {
@@ -49,7 +54,6 @@ class AdminSayfa : AppCompatActivity() {
         adminMap.put("ad",binding.adminemail.text.toString())
         adminMap.put("sifre",binding.adminsifre.text.toString())
         adminMap.put("adsoyad",binding.adminisim.text.toString())
-
         db.collection("Admin").document(adminArrayList[0].id).update(adminMap).
         addOnCompleteListener{
             if (it.isComplete && it.isSuccessful) {

@@ -17,6 +17,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
@@ -30,8 +31,10 @@ class YemekEkle : AppCompatActivity() {
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
     var selectedPicture : Uri? = null
     var selectedBitmap : Bitmap? = null
+    var db2= FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         binding= ActivityYemekEkleBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -42,7 +45,7 @@ class YemekEkle : AppCompatActivity() {
         }
 
         binding.btnyemekekle.setOnClickListener {
-            uploadClicked(binding.root)
+            uploadClicked()
 
         }
         binding.adminfotosec.setOnClickListener {
@@ -111,7 +114,7 @@ class YemekEkle : AppCompatActivity() {
             }
         }
     }
-    fun uploadClicked (view: View) {
+    fun uploadClicked () {
 
         //UUID -> image name
         val uuid = UUID.randomUUID()
@@ -128,7 +131,6 @@ class YemekEkle : AppCompatActivity() {
                 uploadedPictureReference.downloadUrl.addOnSuccessListener { uri ->
                     val downloadUrl = uri.toString()
                     println(downloadUrl)
-
                     val yemekMap = hashMapOf<String,Any>()
                     yemekMap.put("ImageUrl",downloadUrl)
                     yemekMap.put("aciklamasi", binding.adminaciklamasi.text.toString())
@@ -140,9 +142,8 @@ class YemekEkle : AppCompatActivity() {
                     yemekMap.put("yagmiktari",binding.adminyemekyag.text.toString())
                     yemekMap.put("yapimsuresi",binding.adminyemekhazirlamasuresi.text.toString())
                     yemekMap.put("yemekismi",binding.adminyemekadi.text.toString())
-                    //  postMap.put("sifre",binding.uploadCommentText.text.toString())
 
-                    com.muhammetcakir.yourdietprogramkotlin.db.collection( "Yemekler").add(yemekMap).addOnCompleteListener{ task ->
+                    db2.collection( "Yemekler").add(yemekMap).addOnCompleteListener{ task ->
 
                         if (task.isComplete && task.isSuccessful) {
                             //back

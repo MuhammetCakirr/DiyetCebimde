@@ -2,13 +2,10 @@ package com.muhammetcakir.yourdietprogramkotlin.Views
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.muhammetcakir.yourdietprogramkotlin.ClickListener.yenile
 import com.muhammetcakir.yourdietprogramkotlin.Models.*
-import com.muhammetcakir.yourdietprogramkotlin.R
 import com.muhammetcakir.yourdietprogramkotlin.databinding.ActivityYemekdetayBinding
-
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_yemekdetay.*
+
 
 class yemekdetay : AppCompatActivity() {
 

@@ -91,6 +91,7 @@
     </LinearLayout>
 
     <TextView
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="28sp"
@@ -99,6 +100,19 @@
         android:layout_gravity="center"
         android:layout_marginTop="10dp">
     </TextView>
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/diyetkisiyeozel"
+            android:layout_margin="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="28sp"
+            android:text="Henüz Diyetin Yok.Eklemek için tıkla!"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp">
+        </TextView>
 
     <androidx.recyclerview.widget.RecyclerView
 

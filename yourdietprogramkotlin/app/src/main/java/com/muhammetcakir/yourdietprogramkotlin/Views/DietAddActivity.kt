@@ -3,7 +3,6 @@ package com.muhammetcakir.yourdietprogramkotlin.Views
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.widget.Toast
 import com.google.firebase.firestore.FirebaseFirestore
 import com.muhammetcakir.yourdietprogramkotlin.*
@@ -48,7 +47,6 @@ class DietAddActivity : AppCompatActivity() {
             } else {
                 spor = false
             }
-
             if (binding.checkBoxseker.isActivated == true &&
                 binding.checkBoxTansiyon.isActivated == true &&
                 binding.checkBoxdiyabet.isActivated == true &&
@@ -60,30 +58,13 @@ class DietAddActivity : AppCompatActivity() {
             } else {
                 hastalik = false
             }
-
-
             kilo = Integer.parseInt(binding.editTextNumberkilo.getText().toString().trim())
             boy = (binding.editTextNumberboy.getText().toString().trim()).toDouble()
             diyetbelirleme()
-
-            if(suankikullanicilist.isEmpty())
+            if(suankikullanicilist.isNotEmpty())
             {
-                yenikikullanicilist[0].kilo= kilo.toString()
-                yenikikullanicilist[0].boy= kilo.toString()
-                val adminMap = hashMapOf<String, Any>()
-                adminMap.put("kilo", yenikikullanicilist[0].kilo.toString())
-                adminMap.put("boy", yenikikullanicilist[0].boy.toString())
-                println("Kullanıcı İd"+currentUser!!.uid)
-
-                db.collection("Users").document(currentUser!!.uid).update(adminMap)
-                    .addOnCompleteListener {
-                        if (it.isComplete && it.isSuccessful) {
-                        }
-                    }.addOnFailureListener { exception ->
-                        Toast.makeText(applicationContext, exception.localizedMessage, Toast.LENGTH_LONG)
-                            .show()
-                    }
-            }else{
+                suankikullanicilist[0].kilo= kilo.toString()
+                suankikullanicilist[0].boy= boy.toString()
                 val adminMap = hashMapOf<String, Any>()
                 adminMap.put("kilo", kilo.toString())
                 adminMap.put("boy", boy.toString())
@@ -96,9 +77,24 @@ class DietAddActivity : AppCompatActivity() {
                         Toast.makeText(applicationContext, exception.localizedMessage, Toast.LENGTH_LONG)
                             .show()
                     }
+
+
+            }else{
+                yenikikullanicilist[0].kilo= kilo.toString()
+                yenikikullanicilist[0].boy= boy.toString()
+                val adminMap = hashMapOf<String, Any>()
+                adminMap.put("kilo", yenikikullanicilist[0].kilo.toString())
+                adminMap.put("boy", yenikikullanicilist[0].boy.toString())
+                println("Kullanıcı İd"+currentUser!!.uid)
+                db.collection("Users").document(currentUser!!.uid).update(adminMap)
+                    .addOnCompleteListener {
+                        if (it.isComplete && it.isSuccessful) {
+                        }
+                    }.addOnFailureListener { exception ->
+                        Toast.makeText(applicationContext, exception.localizedMessage, Toast.LENGTH_LONG)
+                            .show()
+                    }
             }
-            println(diyetbelirlemeList[0].Boy)
-            println(Math.sqrt(diyetbelirlemeList[0].Boy))
             if (diyetbelirlemeList.isNotEmpty()) {
                 kisibki= Math.floor(
                     diyetbelirlemeList[0].Kilo / (Math.pow(

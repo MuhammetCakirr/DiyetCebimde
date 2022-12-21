@@ -8,7 +8,7 @@
 
 
     <androidx.cardview.widget.CardView
-
+        android:id="@+id/kullanicicard"
         app:cardCornerRadius="5dp"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
@@ -23,15 +23,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
                 <androidx.cardview.widget.CardView
                     android:layout_marginTop="5dp"
-                    android:layout_gravity="center_vertical"
+                    android:layout_gravity="center_horizontal"
                     app:cardCornerRadius="15dp"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:id="@+id/kullanicifotocard">
                     <ImageView
+                        android:layout_gravity=""
                         android:layout_width="130dp"
                         android:layout_height="130dp"
                         android:src="@drawable/celali"
@@ -114,24 +115,6 @@
 
 
 
-        <Button
-            android:layout_margin="10dp"
-            android:id="@+id/btnkullanicigüncelle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="guncelle"
-            android:text="Güncelle">
-
-        </Button>
-            <Button
-                android:layout_margin="10dp"
-                android:id="@+id/btnkullanicisil"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="guncelle"
-                android:text="Sil">
-
-            </Button>
 
 
         </LinearLayout>

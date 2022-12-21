@@ -59,6 +59,7 @@
                         android:layout_gravity="left"
                         android:src="@drawable/celali"
                         android:id="@+id/kullanicifoto"
+                        android:scaleType="fitXY"
                         >
                     </ImageView>
                 </androidx.cardview.widget.CardView>
@@ -151,12 +152,12 @@
                         android:id="@+id/günlükalmangereken"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:text="Günlük Alman Gereken Değerler"
+                        android:textStyle="bold|italic"
+                        android:text="Günlük Alman Gereken Değerler!"
                         android:gravity="center"
                         android:layout_gravity="center"
                         android:textColor="@color/white"
-                        android:textSize="23sp">
+                        android:textSize="25sp">
 
                     </TextView>
 
@@ -183,7 +184,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Karbonhidrat: "
-                                android:textColor="@color/white"
+                                android:textColor="@color/darkGray"
                                 android:textSize="25sp"
                                 android:textStyle="bold" />
 
@@ -193,12 +194,51 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="600 Kcal"
-                                android:textColor="@color/white"
+                                android:textColor="@color/darkGray"
                                 android:textSize="25sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
                     </LinearLayout>
+                        <LinearLayout
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="8dp"
+
+                            android:orientation="vertical"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+                                <TextView
+
+                                    android:id="@+id/kacprotein"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Protein: "
+                                    android:textColor="@color/darkGray"
+                                    android:textSize="25sp"
+                                    android:textStyle="bold" />
+
+
+                                <TextView
+                                    android:id="@+id/proteindegeri"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="600 Kcal"
+                                    android:textColor="@color/darkGray"
+                                    android:textSize="25sp"
+                                    android:textStyle="bold" />
+
+                            </LinearLayout>
+                        </LinearLayout>
                     <LinearLayout
 
                         android:layout_width="wrap_content"
@@ -220,7 +260,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
                                 android:text="Yağ: "
-                                android:textColor="@color/white"
+                                android:textColor="@color/darkGray"
                                 android:textSize="25sp"
                                 android:textStyle="bold" />
                             <TextView
@@ -229,52 +269,14 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:text="600 Kcal"
-                                android:textColor="@color/white"
+                                android:textColor="@color/darkGray"
                                 android:textSize="25sp"
                                 android:textStyle="bold" />
 
                         </LinearLayout>
 
                     </LinearLayout>
-                    <LinearLayout
 
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="5dp"
-                        android:orientation="vertical"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal">
-
-                            <TextView
-
-                                android:id="@+id/kacprotein"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Protein: "
-                                android:textColor="@color/white"
-                                android:textSize="25sp"
-                                android:textStyle="bold" />
-
-
-                            <TextView
-                                android:id="@+id/proteindegeri"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="600 Kcal"
-                                android:textColor="@color/white"
-                                android:textSize="25sp"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
-                    </LinearLayout>
 
                     </LinearLayout>
 

@@ -11,3 +11,7 @@ interface Kullanicisil {
 interface yenile {
     fun onclick()
 }
+
+interface kullanicidetay {
+    fun onclick(user: com.muhammetcakir.yourdietprogramkotlin.Models.User)
+}

@@ -1,21 +1,18 @@
 package com.muhammetcakir.yourdietprogramkotlin.Views
 
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import android.view.Gravity
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserInfo
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.muhammetcakir.yourdietprogramkotlin.MainActivity
-import com.muhammetcakir.yourdietprogramkotlin.Models.bugununyemekleri
-import com.muhammetcakir.yourdietprogramkotlin.Models.yemekList
 import com.muhammetcakir.yourdietprogramkotlin.databinding.ActivityEditProfileBinding
 
 import com.muhammetcakir.yourdietprogramkotlin.suankikullanicilist
@@ -32,22 +29,27 @@ class EditProfile : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
-        auth = Firebase.auth
-        val currentUser = auth.currentUser
+        auth = FirebaseAuth.getInstance()
 
-            if (suankikullanicilist.isEmpty())
+            if (suankikullanicilist.isNotEmpty())
+            {
+                Picasso.get().load(suankikullanicilist[0].ImageUrl).into(binding.celalo)
+                binding.profilemail.setText(auth.currentUser!!.email.toString())
+                binding.profilsifre.setText(suankikullanicilist[0]!!.sifre)
+                binding.profilname.setText(suankikullanicilist[0].isim)
+            }
+            else if(yenikikullanicilist.isNotEmpty())
             {
                 Picasso.get().load(yenikikullanicilist[0].ImageUrl).into(binding.celalo)
-                binding.profilemail.setText(currentUser!!.email.toString())
+                binding.profilemail.setText(auth.currentUser!!.email.toString())
                 binding.profilsifre.setText(yenikikullanicilist[0].sifre)
                 binding.profilname.setText(yenikikullanicilist[0].isim)
             }
-            else
-            {
-                Picasso.get().load(suankikullanicilist[0].ImageUrl).into(binding.celalo)
-                binding.profilemail.setText(currentUser!!.email.toString())
-                binding.profilsifre.setText(suankikullanicilist[0]!!.sifre)
-                binding.profilname.setText(suankikullanicilist[0].isim)
+            else{
+                Picasso.get().load("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png").into(binding.celalo)
+                binding.profilemail.setText(auth.currentUser!!.email.toString())
+               // binding.profilsifre.setText(suankikullanicilist[0]!!.sifre)
+                binding.profilname.setText(auth.currentUser!!.displayName)
             }
 
         binding.btngNcelle.setOnClickListener {
@@ -61,13 +63,28 @@ class EditProfile : AppCompatActivity() {
             startActivity(Intent(this, NewActivity::class.java))
         }
         binding.btnsil.setOnClickListener {
+            auth.currentUser!!.delete().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d(TAG, "User account deleted.")
+                    if (auth.currentUser==null)
+                    {
+                        val intent = Intent(applicationContext, MainActivity::class.java)
+                        startActivity(intent)
 
+                    }
+                }
+            }
             removedatabase(suankikullanicilist[0].id)
         }
         binding.btncikisyap.setOnClickListener {
-            Firebase.auth.signOut()
-            val intent = Intent(applicationContext, MainActivity::class.java)
-            startActivity(intent)
+            auth.updateCurrentUser(auth.currentUser!!)
+            auth.signOut()
+
+            if(auth.currentUser==null)
+            {
+                val intent = Intent(applicationContext, MainActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
     private fun kullaniciupdate() {
@@ -77,15 +94,12 @@ class EditProfile : AppCompatActivity() {
         adminMap.put("isim",binding.profilname.text.toString())
         Handler().postDelayed(
             {
-
                 db.collection("Users").document(suankikullanicilist[0].id).update(adminMap).
                 addOnCompleteListener{
                     if (it.isComplete && it.isSuccessful) {
                         //back
-
                         finish()
                         Toast.makeText(getApplicationContext(),"Bilgilerin Güncellendi.",Toast.LENGTH_LONG).show();
-
                     }
                 }.addOnFailureListener { exception ->
                     Toast.makeText(applicationContext, exception.localizedMessage, Toast.LENGTH_LONG)
@@ -93,15 +107,8 @@ class EditProfile : AppCompatActivity() {
                 }
                 startActivity(Intent(this, NewActivity::class.java))
             },
-
-
             8000
-
-
         )
-
-
-
     }
 
     private fun removedatabase(index:String)

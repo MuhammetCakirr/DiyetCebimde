@@ -16,7 +16,8 @@ class Diyet
        var sabahogun1:String,
        var sabahogun2:String,
        var sabahogun3:String,
-       var hangigun:String
+       var hangigun:String,
+       var kimeait:String
        )
 {
 }

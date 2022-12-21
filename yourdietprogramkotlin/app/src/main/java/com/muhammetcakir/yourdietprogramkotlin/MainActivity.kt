@@ -11,7 +11,6 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
@@ -23,11 +22,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -35,13 +32,11 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import com.muhammetcakir.yourdietprogramkotlin.Adapters.Views.*
+
 import com.muhammetcakir.yourdietprogramkotlin.ApiServisleri.TimeApi
 import com.muhammetcakir.yourdietprogramkotlin.ApiServisleri.TimeTurkey
 import com.muhammetcakir.yourdietprogramkotlin.Models.*
-import com.muhammetcakir.yourdietprogramkotlin.Views.EditProfile
-import com.muhammetcakir.yourdietprogramkotlin.Views.KullanicilarArrayList
-import com.muhammetcakir.yourdietprogramkotlin.Views.SplashScreen
+import com.muhammetcakir.yourdietprogramkotlin.Views.*
 import com.muhammetcakir.yourdietprogramkotlin.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.*
@@ -50,20 +45,20 @@ import java.io.IOException
 import java.util.*
 
 
-var retrofit:Retrofit?=null
-var timeApi:TimeApi?=null
-val baseurl:String="http://worldtimeapi.org/api/timezone/"
-var timeTurkeycall: Call<TimeTurkey>?=null
-var timeTurkey:TimeTurkey?=null
-var timeTurkey2:TimeTurkey?=null
-val diyetArrayList : ArrayList<Diyet> = ArrayList()
-val bkidiyetArrayList : ArrayList<Diyet> = ArrayList()
-val diyetbelirlemeList : ArrayList<DiyetBelirleme> = ArrayList()
-var kisibki:Double?=null
-var db : FirebaseFirestore=FirebaseFirestore.getInstance()
-private  var auth : FirebaseAuth=FirebaseAuth.getInstance()
-val suankikullanicilist : ArrayList<User> = ArrayList()
-val yenikikullanicilist : ArrayList<User> = ArrayList()
+var retrofit: Retrofit? = null
+var timeApi: TimeApi? = null
+val baseurl: String = "http://worldtimeapi.org/api/timezone/"
+var timeTurkeycall: Call<TimeTurkey>? = null
+var timeTurkey: TimeTurkey? = null
+var timeTurkey2: TimeTurkey? = null
+val diyetArrayList: ArrayList<Diyet> = ArrayList()
+val bkidiyetArrayList: ArrayList<Diyet> = ArrayList()
+val diyetbelirlemeList: ArrayList<DiyetBelirleme> = ArrayList()
+var kisibki: Double? = null
+var db: FirebaseFirestore = FirebaseFirestore.getInstance()
+private var auth: FirebaseAuth = FirebaseAuth.getInstance()
+val suankikullanicilist: ArrayList<User> = ArrayList()
+val yenikikullanicilist: ArrayList<User> = ArrayList()
 var currentUser = auth.currentUser
 
 class MainActivity : AppCompatActivity() {
@@ -71,11 +66,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
-    var selectedPicture : Uri? = null
-    var selectedBitmap : Bitmap? = null
+    var selectedPicture: Uri? = null
+    var selectedBitmap: Bitmap? = null
+
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         supportActionBar?.hide()
@@ -83,6 +78,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
         retrofitsettings()
         getkullaniciFromFirestore()
+        getKategoriFromFirestore()
+        diyetgetir()
         registerLauncher()
         yemekgetir()
         diyetolustur()
@@ -93,22 +90,9 @@ class MainActivity : AppCompatActivity() {
             .build()
         googleSignInClient = GoogleSignIn.getClient(this, gso)
         //Google ile giriş butonu
-        binding.googlegiris.setOnClickListener(){
+        binding.googlegiris.setOnClickListener() {
             signIn()
         }
-
-
-       /* if (currentUser != null)
-        {
-           if (currentUser!!.email.toString()=="mami1@gmail.com")
-            {
-               val intent = Intent(applicationContext, SplashScreen::class.java)
-               startActivity(intent)
-           }
-          //  intent = Intent(applicationContext, SplashScreen::class.java)
-                //startActivity(intent)
-        }*/
-
         //Kayıt ol tarafına geçince
         binding.singUp.setOnClickListener {
             binding.singUp.background = resources.getDrawable(R.drawable.switch_trcks, null)
@@ -119,13 +103,10 @@ class MainActivity : AppCompatActivity() {
             binding.logIn.setTextColor(resources.getColor(R.color.white, null))
             binding.yada.visibility = View.GONE
             binding.girisyapbutton.text = "Kayıt Ol"
-
             binding.googlegiris.visibility = View.GONE
-            binding.girisyapbutton.visibility=View.GONE
-            binding.kayitolbutton.visibility=View.VISIBLE
-
+            binding.girisyapbutton.visibility = View.GONE
+            binding.kayitolbutton.visibility = View.VISIBLE
         }
-
         //Giriş Yap tarafına geçince
         binding.logIn.setOnClickListener {
             binding.logIn.setTextColor(resources.getColor(R.color.white, null))
@@ -137,31 +118,31 @@ class MainActivity : AppCompatActivity() {
             binding.logIn.setTextColor(resources.getColor(R.color.textColor, null))
             binding.girisyapbutton.text = "Giriş Yap"
             binding.yada.visibility = View.VISIBLE
-
             binding.googlegiris.visibility = View.VISIBLE
-            binding.girisyapbutton.visibility=View.VISIBLE
-            binding.kayitolbutton.visibility=View.GONE
+            binding.girisyapbutton.visibility = View.VISIBLE
+            binding.kayitolbutton.visibility = View.GONE
         }
 
         //Giriş yap butonu tıklanınca
         binding.girisyapbutton.setOnClickListener {
             signInClicked(view)
-                startActivity(Intent(this@MainActivity, SplashScreen::class.java))
+            startActivity(Intent(this@MainActivity, SplashScreen::class.java))
         }
-
         //Kayıt Ol butonu tıklanınca
-        binding.kayitolbutton.setOnClickListener(){
-                uploadClicked(view)
-                signUpClicked(view)
-            val intent = Intent(applicationContext, SplashScreen::class.java)
-            startActivity(intent)
+        binding.kayitolbutton.setOnClickListener() {
+
+            signUpClicked(view)
+
+                val intent = Intent(applicationContext, SplashScreen::class.java)
+                startActivity(intent)
+
+
         }
         //Fotoğraf Seç butonu
-        binding.fotosec.setOnClickListener(){
+        binding.fotosec.setOnClickListener() {
             imageViewClicked(view)
-            fotografseciniz.visibility=View.GONE
+            fotografseciniz.visibility = View.GONE
         }
-
     }
 
     private fun getkullaniciFromFirestore() {
@@ -193,6 +174,7 @@ class MainActivity : AppCompatActivity() {
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -210,6 +192,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential)
@@ -226,59 +209,47 @@ class MainActivity : AppCompatActivity() {
                 }
             }
     }
+
     private fun updateUI(user: FirebaseUser?) {
         if (user != null) {
-            val intent = Intent(applicationContext, EditProfile::class.java)
+            val intent = Intent(applicationContext, NewActivity::class.java)
             intent.putExtra(EXTRA_NAME, user.displayName)
             startActivity(intent)
         }
     }
+
     companion object {
         const val RC_SIGN_IN = 1001
         const val EXTRA_NAME = "EXTRA_NAME"
     }
 
-
     private fun retrofitsettings() {
-        retrofit=Retrofit.Builder().baseUrl(baseurl)
+        retrofit = Retrofit.Builder().baseUrl(baseurl)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-       timeApi= retrofit!!.create<TimeApi>()
-        timeTurkeycall=timeApi!!.getTime()
+        timeApi = retrofit!!.create<TimeApi>()
+        timeTurkeycall = timeApi!!.getTime()
 
         timeTurkeycall!!.enqueue(object : Callback<TimeTurkey?> {
             override fun onResponse(call: Call<TimeTurkey?>, response: Response<TimeTurkey?>) {
                 if (response.isSuccessful) {
                     timeTurkey = response.body()
-                    timeTurkey2=response.body()
-                    if(timeTurkey!!.dayOfWeek=="1")
-                    {
-                        timeTurkey!!.dayOfWeek="Pazartesi Günü İçin Öneri Yemekler"
-                    }
-                    else if (timeTurkey!!.dayOfWeek=="2")
-                    {
-                        timeTurkey!!.dayOfWeek="Salı Günü İçin Öneri Yemekler"
-                    }
-                    else if (timeTurkey!!.dayOfWeek=="3")
-                    {
-                        timeTurkey!!.dayOfWeek="Çarşamba Günü İçin Öneri Yemekler"
-                    }
-                    else if (timeTurkey!!.dayOfWeek=="4")
-                    {
-                        timeTurkey!!.dayOfWeek="Perşembe Günü İçin Öneri Yemekler"
-                    }
-                    else if (timeTurkey!!.dayOfWeek=="5")
-                    {
-                        timeTurkey!!.dayOfWeek="Cuma Günü İçin Öneri Yemekler"
-                    }
-                    else if (timeTurkey!!.dayOfWeek=="6")
-                    {
-                        timeTurkey!!.dayOfWeek="Cumartesi Günü İçin Öneri Yemekler"
-                    }
-                    else if (timeTurkey!!.dayOfWeek=="7")
-                    {
-                        timeTurkey!!.dayOfWeek="Pazar Günü İçin Öneri Yemekler"
+                    timeTurkey2 = response.body()
+                    if (timeTurkey!!.dayOfWeek == "1") {
+                        timeTurkey!!.dayOfWeek = "Pazartesi Günü İçin Öneri Yemekler"
+                    } else if (timeTurkey!!.dayOfWeek == "2") {
+                        timeTurkey!!.dayOfWeek = "Salı Günü İçin Öneri Yemekler"
+                    } else if (timeTurkey!!.dayOfWeek == "3") {
+                        timeTurkey!!.dayOfWeek = "Çarşamba Günü İçin Öneri Yemekler"
+                    } else if (timeTurkey!!.dayOfWeek == "4") {
+                        timeTurkey!!.dayOfWeek = "Perşembe Günü İçin Öneri Yemekler"
+                    } else if (timeTurkey!!.dayOfWeek == "5") {
+                        timeTurkey!!.dayOfWeek = "Cuma Günü İçin Öneri Yemekler"
+                    } else if (timeTurkey!!.dayOfWeek == "6") {
+                        timeTurkey!!.dayOfWeek = "Cumartesi Günü İçin Öneri Yemekler"
+                    } else if (timeTurkey!!.dayOfWeek == "7") {
+                        timeTurkey!!.dayOfWeek = "Pazar Günü İçin Öneri Yemekler"
                     }
                 }
             }
@@ -289,24 +260,35 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    fun imageViewClicked(view : View)  {
+    fun imageViewClicked(view: View) {
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                Snackbar.make(view, "Galeriye girme izni gerekli", Snackbar.LENGTH_INDEFINITE).setAction("İzin ver",
-                    View.OnClickListener {
-                        permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-                    }).show()
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            ) {
+                Snackbar.make(view, "Galeriye girme izni gerekli", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("İzin ver",
+                        View.OnClickListener {
+                            permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        }).show()
             } else {
                 permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
             }
         } else {
-            val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            val intentToGallery =
+                Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             activityResultLauncher.launch(intentToGallery)
 
         }
 
     }
+
     fun registerLauncher() {
         activityResultLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
@@ -341,7 +323,8 @@ class MainActivity : AppCompatActivity() {
         ) { result ->
             if (result) {
                 //permission granted
-                val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                val intentToGallery =
+                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 activityResultLauncher.launch(intentToGallery)
             } else {
                 //permission denied
@@ -349,87 +332,99 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    fun uploadClicked (view: View) {
 
+    fun uploadClicked(view: View) {
         //UUID -> image name
         val uuid = UUID.randomUUID()
         val imageName = "$uuid.jpg"
-
         val storage = Firebase.storage
         val reference = storage.reference
+        val abc = "0"
         val imagesReference = reference.child("images").child(imageName)
-
         if (selectedPicture != null) {
             imagesReference.putFile(selectedPicture!!).addOnSuccessListener { taskSnapshot ->
-
                 val uploadedPictureReference = storage.reference.child("images").child(imageName)
-                uploadedPictureReference.downloadUrl.addOnSuccessListener { uri ->
+                uploadedPictureReference.downloadUrl.addOnSuccessListener{ uri ->
                     val downloadUrl = uri.toString()
-                    println(downloadUrl)
-
-                    val postMap = hashMapOf<String,Any>()
-                    postMap.put("ImageUrl",downloadUrl)
-                    postMap.put("email",auth.currentUser!!.email.toString())
-                    postMap.put("isim",binding.kayitolisim.text.toString())
-                    postMap.put("sifre",binding.kayitolsifre.text.toString())
-
-
-                    db.collection( "Users").document(currentUser!!.uid.toString()).set(postMap).addOnCompleteListener{ task ->
-
+                    val userMap = hashMapOf<String, Any>()
+                    userMap.put("ImageUrl", downloadUrl)
+                    userMap.put("email", auth.currentUser!!.email.toString())
+                    userMap.put("isim", yenikikullanicilist[0].isim.toString())
+                    userMap.put("sifre", yenikikullanicilist[0].sifre.toString())
+                    userMap.put("kilo", abc.toString())
+                    userMap.put("boy", abc.toString())
+                    db.collection("Users").document(currentUser!!.uid).set(userMap).addOnCompleteListener { task ->
                         if (task.isComplete && task.isSuccessful) {
                             //back
                         }
-
-                    }.addOnFailureListener{exception ->
-                        Toast.makeText(applicationContext,exception.localizedMessage,Toast.LENGTH_LONG).show()
+                    }.addOnFailureListener { exception ->
+                        Toast.makeText(
+                            applicationContext,
+                            exception.localizedMessage,
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
-
-
                 }
-
             }
-
         }
-
-
     }
-    fun signInClicked(view : View) {
+    fun signInClicked(view: View) {
         val userEmail = binding.girisyapemail.text.toString()
         val password = binding.girisyapsifre.text.toString()
 
         if (userEmail.isNotEmpty() && password.isNotEmpty()) {
-            auth.signInWithEmailAndPassword(userEmail,password).addOnCompleteListener { task ->
+            auth.signInWithEmailAndPassword(userEmail, password).addOnCompleteListener { task ->
 
                 if (task.isSuccessful) {
 
-                    Toast.makeText(applicationContext,"Hoşgeldin: ${auth.currentUser?.email.toString()}",Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        applicationContext,
+                        "Hoşgeldin: ${auth.currentUser?.email.toString()}",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
 
             }.addOnFailureListener { exception ->
-                Toast.makeText(applicationContext,exception.localizedMessage,Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, exception.localizedMessage, Toast.LENGTH_LONG)
+                    .show()
             }
         }
     }
-    fun signUpClicked(view : View) {
+    fun signUpClicked(view: View) {
         val userEmail = binding.kayitolemail.text.toString()
         val password = binding.kayitolsifre.text.toString()
-        val isim=binding.kayitolisim.text.toString()
+        val isim = binding.kayitolisim.text.toString()
         if (userEmail.isNotEmpty() && password.isNotEmpty()) {
-            auth.createUserWithEmailAndPassword(userEmail,password).addOnCompleteListener { task ->
+            auth.createUserWithEmailAndPassword(userEmail, password).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-
-                    yenikikullanicilist.add(User("1",userEmail,password,isim,selectedPicture.toString(),"0","0"))
+                    uploadClicked(view)
+                    yenikikullanicilist.add(
+                        User(
+                            "1",
+                            userEmail,
+                            password,
+                            isim,
+                            selectedPicture.toString(),
+                            "0",
+                            "0"
+                        )
+                    )
+                    Toast.makeText(
+                        applicationContext,
+                        "Aramıza Hoşgeldin: ${auth.currentUser?.email.toString()}",
+                        Toast.LENGTH_LONG
+                    ).show()
 
                 }
-
             }.addOnFailureListener { exception ->
-                Toast.makeText(applicationContext,exception.localizedMessage,Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, exception.localizedMessage, Toast.LENGTH_LONG)
+                    .show()
             }
         }
     }
 
-    fun yemekgetir()
-    {
+    fun yemekgetir() {
+        yemekList.clear()
         db.collection("Yemekler")
             .get()
             .addOnSuccessListener { result ->
@@ -437,14 +432,19 @@ class MainActivity : AppCompatActivity() {
                     Log.d(ContentValues.TAG, "${document.id} => ${document.data}")
 
                     yemekList.add(
-                       Yemek(
-                           document.getId().toString(),document.getString("ImageUrl").toString(),
-                           document.getString("yemekismi").toString(),document.getString("aciklamasi").toString(),
-                           document.getString("icindekiler").toString(),document.getString("karbmiktari").toString(),
-                           document.getString("proteinmiktari").toString(),document.getString("yagmiktari").toString(),
-                           document.getString("toplamkalori").toString(),document.getString("yapimsuresi").toString(),
-                           document.getString("kategoriid").toString(),
-                       )
+                        Yemek(
+                            document.getId().toString(),
+                            document.getString("ImageUrl").toString(),
+                            document.getString("yemekismi").toString(),
+                            document.getString("aciklamasi").toString(),
+                            document.getString("icindekiler").toString(),
+                            document.getString("karbmiktari").toString(),
+                            document.getString("proteinmiktari").toString(),
+                            document.getString("yagmiktari").toString(),
+                            document.getString("toplamkalori").toString(),
+                            document.getString("yapimsuresi").toString(),
+                            document.getString("kategoriid").toString(),
+                        )
                     )
                 }
             }
@@ -455,10 +455,8 @@ class MainActivity : AppCompatActivity() {
             }
 
     }
-
-    fun diyetolustur()
-    {
-        val diyet1=Diyet(
+    fun diyetolustur() {
+        val diyet1 = Diyet(
             "1",
             "1 el ayası büyüklüğünde ızgara Dana biftek",
             "Mevsim yağsız salata",
@@ -473,9 +471,10 @@ class MainActivity : AppCompatActivity() {
             "2 yemek kaşığı lor",
             "1 fincan şekersiz yeşil çay",
             "Hergün",
+            "x"
         )
         diyetArrayList.add(diyet1)
-        val diyet2=Diyet(
+        val diyet2 = Diyet(
             "2",
             "½ porsiyon ızgara balık",
             "Elma sirkeli yağsız salata",
@@ -490,9 +489,10 @@ class MainActivity : AppCompatActivity() {
             "1 dilim yarım yağlı beyaz peynir",
             "Mevsim yeşillikleri",
             "Hergün",
+            "x"
         )
         diyetArrayList.add(diyet2)
-        val diyet3=Diyet(
+        val diyet3 = Diyet(
             "3",
             "1 el ayası büyüklüğünde ızgara Dana biftek",
             "Mevsim yağsız salata",
@@ -507,9 +507,10 @@ class MainActivity : AppCompatActivity() {
             "1 adet haşlanmış yumurta",
             "1 fincan şekersiz yeşil çay",
             "Hergün",
+            "x"
         )
         diyetArrayList.add(diyet3)
-        val diyet4=Diyet(
+        val diyet4 = Diyet(
             "4",
             "30 gram kadar haşlama hindi",
             "Elma sirkeli yağsız salata",
@@ -524,9 +525,10 @@ class MainActivity : AppCompatActivity() {
             "Söğüş sebze",
             "1 dilim light keçi peyniri",
             "Hergün",
+            "x"
         )
         diyetArrayList.add(diyet4)
-        val diyet5=Diyet(
+        val diyet5 = Diyet(
             "5",
             "Haşlama sebze",
             "4 yemek kaşığı light yoğurt + 1 tatlı kaşığı nane",
@@ -541,9 +543,10 @@ class MainActivity : AppCompatActivity() {
             "2 yemek kaşığı lor",
             "1 fincan şekersiz beyaz çay",
             "Hergün",
+            "x"
         )
         diyetArrayList.add(diyet5)
-        val diyet6=Diyet(
+        val diyet6 = Diyet(
             "6",
             "1 orta boy kepçe çorba",
             "Yağsız mevsim salata",
@@ -558,9 +561,10 @@ class MainActivity : AppCompatActivity() {
             "1 dilim yağsız beyaz peynir",
             "1 fincan şekersiz biberiye çay",
             "Hergün",
+            "x"
         )
         diyetArrayList.add(diyet6)
-        val diyet7=Diyet(
+        val diyet7 = Diyet(
             "7",
             "1 porsiyon ızgara Hindi eti",
             "Elma sirkeli yağsız mevsim salata",
@@ -575,9 +579,10 @@ class MainActivity : AppCompatActivity() {
             "2 yemek kaşığı lor",
             "1 fincan şekersiz yeşil çay",
             "Hergün",
+            "x"
         )
         diyetArrayList.add(diyet7)
-        val diyet8=Diyet(
+        val diyet8 = Diyet(
             "8",
             "1 orta boy kepçe çorba",
             "Mevsim yağsız salata",
@@ -592,12 +597,11 @@ class MainActivity : AppCompatActivity() {
             "2 yemek kaşığı lor",
             "1 fincan şekersiz biberiye çay",
             "Hergün",
+            "x"
         )
         diyetArrayList.add(diyet8)
     }
-
-    private fun populateDiets()
-    {
+    private fun populateDiets() {
         val Dukan = DietCesit(
             R.drawable.dietcesitleri1,
             "Dukan Diyeti Nedir?",
@@ -671,6 +675,62 @@ class MainActivity : AppCompatActivity() {
             "Akdeniz tipi beslenme, genelde sebze ve meyve ağırlıklı bir beslenme şeklidir. Akdeniz diyetinin temelinde ise zeytinyağı, peynir, sebze ve meyveler, balık, tahıl ve fındık bulunmaktadır. Ceviz, badem, yoğurt ve tam tahıllar da bolca tüketilir. Akdeniz diyeti damak tadı açısından da zengindir. Çünkü bu beslenme şekli kırmızı ete daha az yer verirken, sebze, meyve, tahıl ve balığa daha çok yer vermektedir. Akdeniz diyetinde zeytinyağı da önemli bir yere sahiptir. Yumurta haftada en fazla 4 kere verilmektedir. Bal temel tatlandırıcıdır."
         )
         DietCesitList.add(AkdenizDiyeti)
+    }
+    fun getKategoriFromFirestore() {
+        kategoriArrayList.clear()
+        db.collection("Kategoriler")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    Log.d(ContentValues.TAG, "${document.id} => ${document.data}")
+                    kategoriArrayList.add(
+                        YemekKategori(
+                            document.getId(),
+                            document.getString("Kategoriisim").toString(),
+                            document.getString("kategoriresim").toString()
+                        )
+                    )
+                    println(kategoriArrayList.size)
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(ContentValues.TAG, "Error getting documents: ", exception)
+            }
+
+
+    }
+    fun diyetgetir() {
+        db.collection("Diyetler")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    Log.d(ContentValues.TAG, "${document.id} => ${document.data}")
+                    diyetlerArrayList.add(
+                        Diyet(
+                            document.getId().toString(),
+                            document.getString("aksamogun1").toString(),
+                            document.getString("aksamogun2").toString(),
+                            document.getString("aksamogun3").toString(),
+                            document.getString("araogun1").toString(),
+                            document.getString("araogun2").toString(),
+                            document.getString("not").toString(),
+                            document.getString("ogleogun1").toString(),
+                            document.getString("ogleogun2").toString(),
+                            document.getString("ogleogun3").toString(),
+                            document.getString("sabahogun1").toString(),
+                            document.getString("sabahogun2").toString(),
+                            document.getString("sabahogun3").toString(),
+                            document.getString("hangigun").toString(),
+                            document.getString("kimeait").toString()
+                        )
+                    )
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(ContentValues.TAG, "Error getting documents: ", exception)
+
+
+            }
     }
 }
 
